@@ -1,0 +1,9 @@
+site_name: CylindricalCast
+theme:
+  name: material
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+
+
