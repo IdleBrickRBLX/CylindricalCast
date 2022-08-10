@@ -1,8 +1,8 @@
 site_name: CylindricalCast
 theme:
   name: material
-  logo: assets/logo.png
-  favicon: assets/logo.png
+  logo: assets/images/favicon.png
+  favicon: assets/images/favicon.png
   palette:
     primary: blue
 
