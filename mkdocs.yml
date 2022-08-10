@@ -1,9 +1,20 @@
 site_name: CylindricalCast
 theme:
   name: material
+  logo: .github/Assets/logo.png
+  favicon: .github/Assets/logo.png
+  palette:
+    primary: blue
+
 markdown_extensions:
   - admonition
   - pymdownx.details
   - pymdownx.superfences
 
+repo_url: https://github.com/IdleBrickRBLX/CylindricalCast
+repo_name:  idlebrickrblx/CylindricalCast
+
+plugins:
+  - search:
+      lang: en
 
