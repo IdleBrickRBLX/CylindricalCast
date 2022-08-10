@@ -13,13 +13,13 @@
 
 <!-- Images -->
 
-[shield gh release]: https://img.shields.io/github/v/release/IdleBrickRBLX/CylindricalCast?label=latest+release&style=flat
+[release]: https://img.shields.io/github/v/release/IdleBrickRBLX/CylindricalCast?label=latest+release&style=flat
 
 [splash]: .github/Assets/cylindrical_splash.png
 
 [![CylindricalCast][splash]][docs]
 
-[![GitHub release (latest by date)][shield gh release]][latest release]
+[![GitHub release (latest by date)][release]][latest release]
 
 CylindricalCast is the only Open-Source solution to cylindrical casting tasks on Roblox. The API makes use of the updated Roblox [Raycast][devhub/raycasts] engine, It has a simple and easily readable API for casting cylinders!
 
