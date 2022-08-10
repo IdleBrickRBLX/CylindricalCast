@@ -8,7 +8,8 @@
 
 [devhub/raycasts]: https://developer.roblox.com/en-us/api-reference/function/WorldRoot/Raycast
 [rblx/CylindricalCast]: https://www.roblox.com/library/10540083895/CylindricalCast
-[rblx/rojo]: https://www.roblox.com/library/1997686364/Rojo-0-5
+[rblx/rojo]: https://www.roblox.com/library/6415005344/Rojo-7
+[web/rojo]: https://rojo.space/
 
 <!-- Images -->
 
@@ -28,7 +29,7 @@ CylindricalCast is the only Open-Source solution to cylindrical casting tasks on
 
 You can either take the toolbox [Asset][rblx/CylindricalCast] or download the latest [Release][latest release] and insert it into studio.
 
-### [Rojo][rojo]
+### [Rojo][web/rojo]
 
 You can use git submodules to clone this repo into your project:
 
@@ -37,3 +38,27 @@ $ git submodule add https://github.com/IdleBrickRBLX/CylindricalCast packages/Cy
 ```
 
 Once inserted, Sync Roblox Studio and Rojo using the Rojo studio [Plugin][rblx/rojo]
+
+## Usage
+
+```lua
+local RunService = game:GetService("RunService")
+local CylindricalCast = require(CylindricalCast_PATH_HERE)
+
+local Cylinder = CylindricalCast.new({
+	Quality = 30, -- The higher the quality the more precision you have. Recommended 15, 50
+	Size = Vector3.new(1, 2, 2), -- (Thicknes, RadiusY, RadiusZ)
+	Ignore = {},
+	ThicknessQuality = 2 -- Quality on the X axis. Recommended 2, 3
+})
+
+RunService.RenderStepped:Connect(function()
+    local yourCFrame = CFrame.new(0,5,0)
+    local Cast = Cylinder:Solve(yourCFrame)
+
+    if Cast then
+        print(Cast.Instance)
+        print(Cast.Position)
+    end
+end)
+```
