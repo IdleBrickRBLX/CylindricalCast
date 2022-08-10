@@ -2,7 +2,7 @@
 
 [latest release]: https://github.com/IdleBrickRBLX/CylindricalCast/releases/latest
 [library url]: https://www.roblox.com/library/5023525481
-[docs]: https://csqrl.github.io/BasicState
+[docs]: https://idlebrickrblx.github.io/CylindricalCast/
 
 <!-- Depends -->
 
@@ -68,4 +68,4 @@ end)
 
 ## Documentation
 
-For a full overview of the API please head over to the [Docs][] website
+For a full overview of the API please head over to the [Docs][docs] website
