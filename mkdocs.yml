@@ -1,8 +1,8 @@
 site_name: CylindricalCast
 theme:
   name: material
-  logo: .github/Assets/logo.png
-  favicon: .github/Assets/logo.png
+  logo: assets/logo.png
+  favicon: assets/logo.png
   palette:
     primary: blue
 
