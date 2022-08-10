@@ -46,7 +46,7 @@ local RunService = game:GetService("RunService")
 local CylindricalCast = require(CylindricalCast_PATH_HERE)
 
 local Cylinder = CylindricalCast.new({
-	Quality = 30, -- The higher the quality the more precision you have. Recommended 15, 50
+    Quality = 30, -- The higher the quality the more precision you have. Recommended 15, 50
 	Size = Vector3.new(1, 2, 2), -- (Thicknes, RadiusY, RadiusZ)
 	Ignore = {},
 	ThicknessQuality = 2 -- Quality on the X axis. Recommended 2, 3
@@ -54,6 +54,9 @@ local Cylinder = CylindricalCast.new({
 
 RunService.RenderStepped:Connect(function()
     local yourCFrame = CFrame.new(0,5,0)
+
+    Cylinder.Size = Vector3.new(1, 3, 3)
+    Cylinder.RaycastParams.FilterDescendantsInstances = {}
     local Cast = Cylinder:Solve(yourCFrame)
 
     if Cast then
@@ -62,3 +65,7 @@ RunService.RenderStepped:Connect(function()
     end
 end)
 ```
+
+## Documentation
+
+For a full overview of the API please head over to the [Docs][] website
