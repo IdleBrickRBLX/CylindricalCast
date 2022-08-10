@@ -42,7 +42,7 @@ function Solver.new(config: ConfigType)
 	return self
 end
 
-function Solver:Solve(wheelCFrame: CFrame): RaycastParams | nil
+function Solver:Solve(CF: CFrame): RaycastParams | nil
 	local raycasts = {}
 
 	for t = 1, self.ThicknessQuality do
@@ -50,7 +50,7 @@ function Solver:Solve(wheelCFrame: CFrame): RaycastParams | nil
 			local angle = i * (FULL_CIRCLE / self.Quality)
 			
 			local ang = t * (FULL_CIRCLE / 3)
-			local newCFrame = (wheelCFrame * CFrame.new(Vector3.yAxis * math.sin(ang) * (self.Size.X * 0.5)))
+			local newCFrame = (CF * CFrame.new(Vector3.yAxis * math.sin(ang) * (self.Size.X * 0.5)))
 			
 			local position = (newCFrame * CFrame.new(Vector3.new(math.cos(angle) * 0.1, 0, math.sin(angle) * 0.1))).Position
 			local direction = (CFrame.new(position, newCFrame.Position) * CFRAME_ANGLES_AXIS_PI).LookVector
@@ -67,7 +67,7 @@ function Solver:Solve(wheelCFrame: CFrame): RaycastParams | nil
 	
 	if next(raycasts) then
 		table.sort(raycasts, function(a, b)
-			return (a.Position - wheelCFrame.Position).Magnitude < (b.Position - wheelCFrame.Position).Magnitude
+			return (a.Position - CF.Position).Magnitude < (b.Position - CF.Position).Magnitude
 		end)
 		return raycasts[1]
 	end
