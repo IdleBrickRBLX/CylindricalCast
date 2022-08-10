@@ -13,4 +13,5 @@
 [![CylindricalCast][splash]][docs]
 
 [![GitHub release (latest by date)][shield gh release]][latest release]
-# CylindricalCast
+
+CylindricalCast is the only Open-Source solution to cylindrical casting tasks. The module makes use of the updated Roblox raycast engine, It has a simple and easily readable API for casting cylinders!
