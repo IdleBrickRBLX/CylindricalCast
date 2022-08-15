@@ -44,12 +44,12 @@ function Solver.new(config: ConfigType)
 end
 
 function Solver:Solve(CF: CFrame): RaycastParams | nil
-	local raycasts = table.create(self.ThicknessQuality) -- this is to avoid running two loops for no reason; two loops are O(n^2) in time complexity I believe
+	local raycasts = table.create(self.ThicknessQuality)
 	
 	local i = 0
 	
 	for t = 1, self.ThicknessQuality do
-		i = if i + 1 > self.Quality then self.Quality else i + 1
+		i = if i + 1 > self.Quality then self.Quality else i + 1 -- this is to avoid running two loops for no reason; two loops are O(n^2) in time complexity I believe
 		
 		local angle = i * (FULL_CIRCLE / self.Quality) -- (FULL_CIRCLE / self.Quality) this can be precomputed once the object has been created
 
