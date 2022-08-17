@@ -46,7 +46,8 @@ local RunService = game:GetService("RunService")
 local CylindricalCast = require(CylindricalCast_PATH_HERE)
 
 local Cylinder = CylindricalCast.new({
-    Quality = 30, -- The higher the quality the more precision you have. Recommended 15, 50
+        Quality = 30, -- The higher the quality the more precision you have. Recommended 15, 50
+	CentreRadius = 0.1, -- Controls the Radius where the rays are emitted from
 	Size = Vector3.new(1, 2, 2), -- (Thicknes, RadiusY, RadiusZ)
 	Ignore = {},
 	ThicknessQuality = 2 -- Quality on the X axis. Recommended 2, 3
