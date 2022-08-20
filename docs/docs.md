@@ -15,7 +15,7 @@ Creates a new CylindricalCast config. Returns [Metatable][rblx/Metatable]
 
 ---
 
-Casts the cylinder. Returns [RaycastResult][rblx/RaycastResult]
+Casts the cylinder. Returns a table of [RaycastResult][rblx/RaycastResult]
 ### Syntax
 
-`CylindricalCast:Solve(CF: CFrame): RaycastParams | nil`
+`CylindricalCast:Solve(CF: CFrame): {RaycastParams} | nil`
