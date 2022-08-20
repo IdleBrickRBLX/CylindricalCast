@@ -61,7 +61,7 @@ RunService.RenderStepped:Connect(function()
     local Cast = Cylinder:Solve(yourCFrame)
 
     if Cast then
-        print(Cast) -- Prints the table of hits
+        print(Cast) -- Prints a table of what was hit
     end
 end)
 ```
