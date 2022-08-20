@@ -13,7 +13,7 @@
 
 <!-- Images -->
 
-[release]: https://img.shields.io/github/v/release/IdleBrickRBLX/CylindricalCast?label=latest+release&style=flat
+[release]: 
 
 [splash]: .github/Assets/cylindrical_splash.png
 
