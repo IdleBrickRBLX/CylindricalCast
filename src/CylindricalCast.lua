@@ -59,10 +59,11 @@ function Solver.new(config: ConfigType)
 	return self
 end
 
-function Solver:Solve(CF: CFrame): RaycastResult | nil
+function Solver:Solve(CF: CFrame): {RaycastResult} | nil
 	local raycasts = self._rays
-	table.clear(raycasts)
 	local s = ((self.Size.Y * 0.832) + 0.5)
+	
+	table.clear(raycasts)
 
 	for _, CFRAME in self._newCFrames do
 		local newCFrame = (CF * CFRAME)
