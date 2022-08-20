@@ -1,3 +1,11 @@
+
+--[[
+	
+	Author : IdleBrick
+	Contributors : Daw588, Sinlernick
+	
+--]]
+
 local Workspace = game:GetService("Workspace")
 
 local FULL_CIRCLE = 2 * math.pi
@@ -19,18 +27,13 @@ type SolverType = {
 	RaycastParams : RaycastParams
 }
 
---[[
-	
-	Author : IdleBrick
-	Contributors : Daw588
 
---]]
 
 local Solver = {}
 Solver.__index = Solver
 
 function Solver.new(config: ConfigType)
-	local self = setmetatable({} :: SolverType, Solver)
+	local self = setmetatable(table.create(8) :: SolverType, Solver)
 
 	local raycastParams = RaycastParams.new()
 	raycastParams.FilterDescendantsInstances = config.Ignore
@@ -41,24 +44,34 @@ function Solver.new(config: ConfigType)
 	self.ThicknessQuality = config.ThicknessQuality
 	self.CentreRadius = config.CentreRadius
 	self.Size = config.Size
-
+	self._rays = table.create(self.ThicknessQuality * self.Quality)
+	self._newCFrames = table.create(self.ThicknessQuality)
+	self._positions = table.create(self.Quality)
+	
+	for i = 1, self.Quality do
+		local angle = i * (FULL_CIRCLE /  self.Quality)
+		table.insert(self._positions, CFrame.new(Vector3.new(math.cos(angle) * self.CentreRadius, 0, math.sin(angle) * self.CentreRadius)))
+	end
+	
+	for t = 1, self.ThicknessQuality do
+		table.insert(self._newCFrames, CFrame.new(Vector3.yAxis * math.sin( t * (FULL_CIRCLE / 3)) * (self.Size.X * 0.5)))
+	end
 	return self
 end
 
-function Solver:Solve(CF: CFrame): RaycastParams | nil
-	local raycasts = {}
+function Solver:Solve(CF: CFrame): RaycastResult | nil
+	local raycasts = self._rays
+	table.clear(raycasts)
+	local s = ((self.Size.Y * 0.832) + 0.5)
 
-	for t,_ in pairs(table.create(self.ThicknessQuality, "")) do
-		for i,_ in pairs(table.create(self.Quality, "")) do
-			local angle = i * (FULL_CIRCLE / self.Quality)
-
-			local ang = t * (FULL_CIRCLE / 3)
-			local newCFrame = (CF * CFrame.new(Vector3.yAxis * math.sin(ang) * (self.Size.X * 0.5)))
-
-			local position = (newCFrame * CFrame.new(Vector3.new(math.cos(angle) * self.CentreRadius, 0, math.sin(angle) * self.CentreRadius))).Position
+	for _, CFRAME in self._newCFrames do
+		local newCFrame = (CF * CFRAME)
+		
+		for _, position in self._positions do
+			local position = (newCFrame * position).Position
 			local direction = (CFrame.new(position, newCFrame.Position) * CFRAME_ANGLES_AXIS_PI).LookVector
 
-			local raycastResult = Workspace:Raycast(position, direction * ((self.Size.Y * 0.832) + 0.5), self.RaycastParams)
+			local raycastResult = Workspace:Raycast(position, direction * s , self.RaycastParams)
 
 			if raycastResult then
 				if raycastResult.Instance then
@@ -66,13 +79,11 @@ function Solver:Solve(CF: CFrame): RaycastParams | nil
 				end
 			end
 		end
+			
 	end
 
 	if next(raycasts) then
-		table.sort(raycasts, function(a, b)
-			return (a.Position - CF.Position).Magnitude < (b.Position - CF.Position).Magnitude
-		end)
-		return raycasts[1]
+		return raycasts
 	end
 
 	return nil
