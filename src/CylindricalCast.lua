@@ -1,13 +1,10 @@
+
 --[[
 	
 	Author : IdleBrick
 	Contributors : Daw588, Sinlernick
 	
-	
-
 --]]
-
-
 
 local Workspace = game:GetService("Workspace")
 
@@ -56,11 +53,9 @@ function Solver.new(config: ConfigType)
 		table.insert(self._positions, CFrame.new(Vector3.new(math.cos(angle) * self.CentreRadius, 0, math.sin(angle) * self.CentreRadius)))
 	end
 	
-	
 	for t = 1, self.ThicknessQuality do
 		table.insert(self._newCFrames, CFrame.new(Vector3.yAxis * math.sin( t * (FULL_CIRCLE / 3)) * (self.Size.X * 0.5)))
 	end
-	
 	return self
 end
 
@@ -88,12 +83,6 @@ function Solver:Solve(CF: CFrame): RaycastResult | nil
 	end
 
 	if next(raycasts) then
-		--[[
-		table.sort(raycasts, function(a, b)
-			return (a.Position - CF.Position).Magnitude < (b.Position - CF.Position).Magnitude
-		end)
-		return raycasts[1]
-		]]
 		return raycasts
 	end
 

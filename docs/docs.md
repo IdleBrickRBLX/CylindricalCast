@@ -9,7 +9,7 @@
 Creates a new CylindricalCast config. Returns [Metatable][rblx/Metatable]
 ### Syntax
 
-`CylindricalCast.new(config: type({Quality : number, Size : Vector3, ThicknessQuality : number, Ignore : {Instance}}))`
+`CylindricalCast.new(config: type({Quality : number, Size : Vector3, CentreRadius : number, ThicknessQuality : number, Ignore : {Instance}}))`
 
 ## `CylindricalCast:Solve()`
 
