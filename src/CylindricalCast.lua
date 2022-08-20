@@ -2,7 +2,11 @@
 	
 	Author : IdleBrick
 	Contributors : Daw588, Sinlernick
+	
+	
+
 --]]
+
 
 
 local Workspace = game:GetService("Workspace")
@@ -14,6 +18,7 @@ type ConfigType = {
 	Quality : number,
 	Size : Vector3,
 	ThicknessQuality : number,
+	CentreRadius : number,
 	Ignore : {Instance}
 }
 
@@ -21,15 +26,17 @@ type SolverType = {
 	Quality : number,
 	Size : Vector3,
 	ThicknessQuality : number,
+	CentreRadius : number,
 	RaycastParams : RaycastParams
 }
+
 
 
 local Solver = {}
 Solver.__index = Solver
 
 function Solver.new(config: ConfigType)
-	local self = setmetatable({} :: SolverType, Solver)
+	local self = setmetatable(table.create(8) :: SolverType, Solver)
 
 	local raycastParams = RaycastParams.new()
 	raycastParams.FilterDescendantsInstances = config.Ignore
@@ -38,45 +45,56 @@ function Solver.new(config: ConfigType)
 	self.RaycastParams = raycastParams
 	self.Quality = config.Quality
 	self.ThicknessQuality = config.ThicknessQuality
+	self.CentreRadius = config.CentreRadius
 	self.Size = config.Size
-
+	self._rays = table.create(self.ThicknessQuality * self.Quality)
+	self._newCFrames = table.create(self.ThicknessQuality)
+	self._positions = table.create(self.Quality)
+	
+	for i = 1, self.Quality do
+		local angle = i * (FULL_CIRCLE /  self.Quality)
+		table.insert(self._positions, CFrame.new(Vector3.new(math.cos(angle) * self.CentreRadius, 0, math.sin(angle) * self.CentreRadius)))
+	end
+	
+	
+	for t = 1, self.ThicknessQuality do
+		table.insert(self._newCFrames, CFrame.new(Vector3.yAxis * math.sin( t * (FULL_CIRCLE / 3)) * (self.Size.X * 0.5)))
+	end
+	
 	return self
 end
 
-function Solver:Solve(CF: CFrame): RaycastParams | nil
-	local raycasts = table.create(self.ThicknessQuality)
-	
-	local i = 0
-	
-	for t = 1, self.ThicknessQuality do
-		i = if i + 1 > self.Quality then self.Quality else i + 1 -- this is to avoid running two loops for no reason; two loops are O(n^2) in time complexity I believe
-		
-		local angle = i * (FULL_CIRCLE / self.Quality) -- (FULL_CIRCLE / self.Quality) this can be precomputed once the object has been created
+function Solver:Solve(CF: CFrame): RaycastResult | nil
+	local raycasts = self._rays
+	table.clear(raycasts)
+	local s = ((self.Size.Y * 0.832) + 0.5)
 
-		local ang = t * (FULL_CIRCLE / 3) -- (FULL_CIRCLE / 3) can be precomputed once the module has loaded to avoid computation in literal frames
-		local newCFrame = (CF * CFrame.new(Vector3.yAxis * math.sin(ang) * (self.Size.X * 0.5)))
-
-		local position = (newCFrame * CFrame.new(Vector3.new(math.cos(angle) * 0.1, 0, math.sin(angle) * 0.1))).Position
-		local direction = (CFrame.new(position, newCFrame.Position) * CFRAME_ANGLES_AXIS_PI).LookVector
-
-		local raycastResult = Workspace:Raycast(position, direction * ((self.Size.Y * 0.832) + 0.5), self.RaycastParams)
+	for _, CFRAME in self._newCFrames do
+		local newCFrame = (CF * CFRAME)
 		
-		
-		if raycastResult then
-			if raycastResult.Instance then
-				table.insert(raycasts, raycastResult)  -- not too sure why this is here, you can just get the first ray that intersected with an object
-				
+		for _, position in self._positions do
+			local position = (newCFrame * position).Position
+			local direction = (CFrame.new(position, newCFrame.Position) * CFRAME_ANGLES_AXIS_PI).LookVector
+
+			local raycastResult = Workspace:Raycast(position, direction * s , self.RaycastParams)
+
+			if raycastResult then
+				if raycastResult.Instance then
+					table.insert(raycasts, raycastResult)
+				end
 			end
 		end
+			
 	end
-	
-
 
 	if next(raycasts) then
+		--[[
 		table.sort(raycasts, function(a, b)
-			return (a.Position - CF.Position).Magnitude < (b.Position - CF.Position).Magnitude 
+			return (a.Position - CF.Position).Magnitude < (b.Position - CF.Position).Magnitude
 		end)
 		return raycasts[1]
+		]]
+		return raycasts
 	end
 
 	return nil
