@@ -61,15 +61,15 @@ end
 
 function Solver:Solve(CF: CFrame): {RaycastResult} | nil
 	local raycasts = self._rays
-	local s = ((self.Size.Y * 0.832) + 0.5)
+	local s = (self.Size.Y * 0.832) + 0.5
 	
 	table.clear(raycasts)
 
 	for _, CFRAME in self._newCFrames do
 		local newCFrame = (CF * CFRAME)
 		
-		for _, position in self._positions do
-			local position = (newCFrame * position).Position
+		for _, POSITION in self._positions do
+			local position = (newCFrame * POSITION).Position
 			local direction = (CFrame.new(position, newCFrame.Position) * CFRAME_ANGLES_AXIS_PI).LookVector
 
 			local raycastResult = Workspace:Raycast(position, direction * s , self.RaycastParams)
