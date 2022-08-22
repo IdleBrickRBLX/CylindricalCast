@@ -47,6 +47,7 @@ function Solver.new(config: ConfigType)
 	self._rays = table.create(self.ThicknessQuality * self.Quality)
 	self._newCFrames = table.create(self.ThicknessQuality)
 	self._positions = table.create(self.Quality)
+	self._rayLength = (self.Size.Y * 0.832) + 0.5
 	
 	for i = 1, self.Quality do
 		local angle = i * (FULL_CIRCLE /  self.Quality)
@@ -61,7 +62,7 @@ end
 
 function Solver:Solve(CF: CFrame): {RaycastResult} | nil
 	local raycasts = self._rays
-	local s = (self.Size.Y * 0.832) + 0.5
+	local length = self._rayLength 
 	
 	table.clear(raycasts)
 
@@ -72,7 +73,7 @@ function Solver:Solve(CF: CFrame): {RaycastResult} | nil
 			local position = (newCFrame * POSITION).Position
 			local direction = (CFrame.new(position, newCFrame.Position) * CFRAME_ANGLES_AXIS_PI).LookVector
 
-			local raycastResult = Workspace:Raycast(position, direction * s , self.RaycastParams)
+			local raycastResult = Workspace:Raycast(position, direction * length , self.RaycastParams)
 
 			if raycastResult then
 				if raycastResult.Instance then
