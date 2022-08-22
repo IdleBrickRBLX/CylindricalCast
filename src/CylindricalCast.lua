@@ -38,9 +38,9 @@ function Solver.new(config: ConfigType)
 	local raycastParams = RaycastParams.new()
 	raycastParams.FilterDescendantsInstances = config.Ignore
 	raycastParams.FilterType = Enum.RaycastFilterType.Blacklist
-
-	self.Size = config.Size
 	self.RaycastParams = raycastParams
+
+	self._Size = config.Size
 	self._Quality = config.Quality
 	self._ThicknessQuality = config.ThicknessQuality
 	self._CentreRadius = config.CentreRadius
@@ -64,9 +64,11 @@ function Solver:Solve(CF: CFrame): {RaycastResult | nil}
 	local raycasts = self._rays
 	local length = self._rayLength 
 	
+	local isIntersected = false
+	
 	table.clear(raycasts)
 
-	for _, CFRAME in self._newCFrames do
+	for index, CFRAME in self._newCFrames do
 		local newCFrame = (CF * CFRAME)
 		
 		for _, POSITION in self._positions do
@@ -76,13 +78,23 @@ function Solver:Solve(CF: CFrame): {RaycastResult | nil}
 			local raycastResult = Workspace:Raycast(position, direction * length , self.RaycastParams)
 
 			if raycastResult then
+				if isIntersected then
+				else
+					isIntersected = true
+				end
+				
 				table.insert(raycasts, raycastResult)
 			end
 		end
 			
 	end
+	
+	if isIntersected then
+		return raycasts
 
-	return raycasts
+	else
+		return nil
+	end
 end
 
 return Solver
