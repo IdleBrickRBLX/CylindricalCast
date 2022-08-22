@@ -60,7 +60,7 @@ function Solver.new(config: ConfigType)
 	return self
 end
 
-function Solver:Solve(CF: CFrame): {RaycastResult} | nil
+function Solver:Solve(CF: CFrame): {RaycastResult | nil}
 	local raycasts = self._rays
 	local length = self._rayLength 
 	
@@ -76,19 +76,13 @@ function Solver:Solve(CF: CFrame): {RaycastResult} | nil
 			local raycastResult = Workspace:Raycast(position, direction * length , self.RaycastParams)
 
 			if raycastResult then
-				if raycastResult.Instance then
-					table.insert(raycasts, raycastResult)
-				end
+				table.insert(raycasts, raycastResult)
 			end
 		end
 			
 	end
 
-	if next(raycasts) then
-		return raycasts
-	end
-
-	return nil
+	return raycasts
 end
 
 return Solver
