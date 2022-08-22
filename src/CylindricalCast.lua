@@ -39,11 +39,11 @@ function Solver.new(config: ConfigType)
 	raycastParams.FilterDescendantsInstances = config.Ignore
 	raycastParams.FilterType = Enum.RaycastFilterType.Blacklist
 
-	self.RaycastParams = raycastParams
-	self.Quality = config.Quality
-	self.ThicknessQuality = config.ThicknessQuality
-	self.CentreRadius = config.CentreRadius
 	self.Size = config.Size
+	self.RaycastParams = raycastParams
+	self._Quality = config.Quality
+	self._ThicknessQuality = config.ThicknessQuality
+	self._CentreRadius = config.CentreRadius
 	self._rays = table.create(self.ThicknessQuality * self.Quality)
 	self._newCFrames = table.create(self.ThicknessQuality)
 	self._positions = table.create(self.Quality)
